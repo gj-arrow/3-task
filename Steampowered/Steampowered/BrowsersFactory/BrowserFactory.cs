@@ -30,7 +30,7 @@ namespace Steampowered.BrowsersFactory
                     {
                         FirefoxOptions profile = new FirefoxOptions();
                         profile.SetPreference("browser.download.folderList", 2);
-                        profile.SetPreference("browser.download.dir", "D:\\Student\\firefox");
+                        profile.SetPreference("browser.download.dir", @"D:\Student\Downloads");
                         profile.SetPreference("browser.helperApps.neverAsk.saveToDisk", "application/octet-stream");
                         profile.SetPreference("browser.download.manager.showWhenStarting", false);
                         _driver = new FirefoxDriver(profile);
@@ -41,7 +41,7 @@ namespace Steampowered.BrowsersFactory
                     {
                         ChromeOptions options = new ChromeOptions();
                         options.AddUserProfilePreference("download.prompt_for_download", false);
-                        options.AddUserProfilePreference("download.default_directory", @"D:\Student\chrome");
+                        options.AddUserProfilePreference("download.default_directory", @"D:\Student\Downloads");
                         options.AddUserProfilePreference("safebrowsing.enabled", true);
                         _driver = new ChromeDriver(options);
                     }

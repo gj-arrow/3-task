@@ -12,6 +12,7 @@ namespace Steampowered.TestSteampowered
     public class TestSteam
     {
         private IWebDriver _driver;
+        private string currentLanguageName;
 
         [SetUp]
         public void Initialize()
@@ -20,7 +21,9 @@ namespace Steampowered.TestSteampowered
             _driver = BrowserFactory.Driver;
             _driver.Manage().Window.Maximize();
             _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.ImplicitWait);
-            _driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(Config.ImplicitWait); 
+            _driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(Config.ImplicitWait);
+            Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo(Config.Language);
+            currentLanguageName = Thread.CurrentThread.CurrentUICulture.EnglishName.ToLower();
         }
 
         [TearDown]
@@ -29,13 +32,12 @@ namespace Steampowered.TestSteampowered
             BrowserFactory.CloseDriver();
         }
 
-        [Test]
+        [Test,Repeat(5)]
         public void AutoTestSteampowered()
         {
             HomePage homePage = new HomePage(_driver);
             homePage.NavigateHomePage();
-            homePage.SelectLanguage(Config.Language);
-           // Thread.Sleep(5000);
+            homePage.SelectLanguage(currentLanguageName);
             homePage.NavigateToActionGames();
             GenreGamePage genreGamePage = new GenreGamePage(_driver);
             genreGamePage.NavigateToTabDiscounts();
@@ -51,7 +53,8 @@ namespace Steampowered.TestSteampowered
             gamePage.ClickDownloadSteam();
             LoadSteamPage loadSteamPage = new LoadSteamPage(_driver);
             loadSteamPage.ClickInstallSteam();
-            Thread.Sleep(18000);
+            Thread.Sleep(10000);
+            Assert.True(loadSteamPage.CheckFileOn());
         }
     }
 }

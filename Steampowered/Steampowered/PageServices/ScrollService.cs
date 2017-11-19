@@ -1,5 +1,5 @@
 ﻿using OpenQA.Selenium;
-using Steampowered.Services;
+using Steampowered.PageServices;
 
 namespace Steampowered.PageServices
 {

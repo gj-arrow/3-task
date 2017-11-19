@@ -68,6 +68,7 @@
     <Compile Include="PageServices\GenerateLocatorService.cs" />
     <Compile Include="PageServices\ScrollService.cs" />
     <Compile Include="PageServices\WaitService.cs" />
+    <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="TestSteampowered\TestSteam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -79,6 +80,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Resource.resx" />
+    <EmbeddedResource Include="Resources\Resource.ru.resx" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

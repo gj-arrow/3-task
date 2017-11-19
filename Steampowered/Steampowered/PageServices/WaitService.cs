@@ -3,23 +3,31 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using Steampowered.Configurations;
 
-namespace Steampowered.Services
+namespace Steampowered.PageServices
 {
    public static class WaitService
     {
-        public static bool WaitTillElementisDisplayed(IWebDriver driver, By by)
+        public static bool WaitTillElementisDisplayed(IWebDriver driver, By elementLocator)
         {
             var elementDisplayed = false;
-            for (var i = 0; i < Config.ImplicitWait; i++)
+            try
             {
-                if (Config.ImplicitWait > 0)
+                for (var i = 0; i < Config.ExplicitWait; i++)
                 {
-                    var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Config.ImplicitWait));
-                    wait.Until(drv => drv.FindElement(by));
+                    if (Config.ExplicitWait > 0)
+                    {
+                        var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Config.ExplicitWait));
+                        wait.Until(drv => drv.FindElement(elementLocator));
+                    }
+                    elementDisplayed = driver.FindElement(elementLocator).Displayed;
                 }
-                elementDisplayed = driver.FindElement(by).Displayed;
+                return elementDisplayed;
             }
-            return elementDisplayed;
+            catch (NoSuchElementException)
+            {
+                Console.WriteLine("Element with locator: '" + elementLocator + "' was not found in current context page.");
+                throw;
+            }
         }
 
 
@@ -27,8 +35,9 @@ namespace Steampowered.Services
         {
             try
             {
-                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Config.ImplicitWait));
-                return wait.Until(ExpectedConditions.ElementToBeClickable(elementLocator));
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Config.ExplicitWait));
+                var element =  wait.Until(ExpectedConditions.ElementToBeClickable(elementLocator));
+                return element;
             }
             catch (NoSuchElementException)
             {
@@ -41,7 +50,7 @@ namespace Steampowered.Services
         {
             try
             {
-                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Config.ImplicitWait));
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Config.ExplicitWait));
                 var element = driver.FindElement(elementLocator);
                 element.Click();
                 wait.Until(ExpectedConditions.StalenessOf(element));
@@ -53,12 +62,13 @@ namespace Steampowered.Services
             }
         }
 
-        public static IWebElement WaitUntilElementExists(IWebDriver driver, By elementLocator, int timeout = 10)
+        public static IWebElement WaitUntilElementExists(IWebDriver driver, By elementLocator)
         {
             try
             {
-                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
-                return wait.Until(ExpectedConditions.ElementExists(elementLocator));
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Config.ExplicitWait));
+                var element = wait.Until(ExpectedConditions.ElementExists(elementLocator));
+                return element;
             }
             catch (NoSuchElementException)
             {

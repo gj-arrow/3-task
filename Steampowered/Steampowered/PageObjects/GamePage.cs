@@ -4,7 +4,7 @@ using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using Steampowered.Configurations;
-using Steampowered.Services;
+using Steampowered.PageServices;
 
 namespace Steampowered.PageObjects
 {
