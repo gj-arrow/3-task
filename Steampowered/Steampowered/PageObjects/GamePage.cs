@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using Steampowered.Configurations;
+using Steampowered.Services;
 
 namespace Steampowered.PageObjects
 {
@@ -24,9 +26,7 @@ namespace Steampowered.PageObjects
         public List<string> GetPriceAndDiscount()
         {
             var priceAndDiscount = new List<string>();
-          //  var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(Config.ExplicitWait));
-           // var originalPrice = wait.Until(ExpectedConditions.ElementToBeClickable(_originalPriceGameLocator)).Text;
-            var originalPrice = _driver.FindElement(_originalPriceGameLocator).Text;
+            var originalPrice = WaitService.WaitUntilElementExists(_driver, _originalPriceGameLocator).Text;
             var discountPrice = _driver.FindElement(_discountPriceGameLocator).Text;
             var discount = _driver.FindElement(_discountGameLocator).Text;
             priceAndDiscount.Add(originalPrice.Substring(1, originalPrice.Length - 1));

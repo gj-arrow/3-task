@@ -8,6 +8,7 @@ using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using Steampowered.Configurations;
 using Steampowered.PageServices;
+using Steampowered.Services;
 
 namespace Steampowered.PageObjects
 {
@@ -21,7 +22,7 @@ namespace Steampowered.PageObjects
             "//div[@id='DiscountsRows']//div[contains(@class,'discount_pct') and contains(text(),'{0}')]/../..";
         private string _templateOriginalPriceGameLocator =
             "//div[@id='DiscountsRows']//div[contains(@class,'discount_pct') and contains(text(),'{0}')]/..//div[contains(@class,'discount_original_price')]";
-        private string _templateDiscountPriceGameLocator =
+        private string _templateFinalPriceGameLocator =
             "//div[@id='DiscountsRows']//div[contains(@class,'discount_pct') and contains(text(),'{0}')]/..//div[contains(@class,'discount_final_price')]";
         private string _discount;
 
@@ -32,8 +33,7 @@ namespace Steampowered.PageObjects
 
         public void NavigateToTabDiscounts()
         {
-            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(Config.ExplicitWait));
-            var buttonDiscounts = wait.Until(ExpectedConditions.ElementToBeClickable(_buttonDiscountsLocator));
+            var buttonDiscounts = WaitService.WaitUntilElementClickable(_driver, _buttonDiscountsLocator);
             buttonDiscounts.Click();
         }
 
@@ -46,21 +46,21 @@ namespace Steampowered.PageObjects
                 discountsGame.Add(Int32.Parse(match.Value));
             }
             _discount = discountsGame.Max().ToString();
-            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(Config.ExplicitWait));
             var gameMaxDiscountlocator = By.XPath(GenerateLocatorService.GenerateStringLocator(_templateDiscountGameLocator, _discount));
-            var gameMaxDiscount = wait.Until(ExpectedConditions.ElementToBeClickable(gameMaxDiscountlocator));
+           // var gameMaxDiscount = WaitService.WaitUntilElementClickable(_driver,gameMaxDiscountlocator);
             var priceAndDiscount = GetPriceAndDiscount();
-            ScrollService.ScrollToElement(_driver, gameMaxDiscount);
-            var action = new Actions(_driver);
-            action.MoveToElement(gameMaxDiscount).Click().Build().Perform();
+            ScrollService.ScrollToElement(_driver, gameMaxDiscountlocator);
+            WaitService.ClickAndWaitForPageToLoad(_driver, gameMaxDiscountlocator);
+            //var action = new Actions(_driver);
+            //action.MoveToElement(gameMaxDiscount).Click().Build().Perform();
             return priceAndDiscount;
         }
 
         private List<string> GetPriceAndDiscount()
         {
             var priceAndDiscount = new List<string>();
-            var originalPrice = _driver.FindElement(By.XPath(GenerateLocatorService.GenerateStringLocator(_templateOriginalPriceGameLocator, _discount))).Text;
-            var discountPrice = _driver.FindElement(By.XPath(GenerateLocatorService.GenerateStringLocator(_templateDiscountPriceGameLocator, _discount))).Text;
+            var originalPrice = WaitService.WaitUntilElementExists(_driver, By.XPath(GenerateLocatorService.GenerateStringLocator(_templateOriginalPriceGameLocator, _discount))).Text;
+            var discountPrice = WaitService.WaitUntilElementExists(_driver,By.XPath(GenerateLocatorService.GenerateStringLocator(_templateFinalPriceGameLocator, _discount))).Text;
             priceAndDiscount.Add(originalPrice.Substring(1));
             priceAndDiscount.Add(discountPrice.Substring(1));
             priceAndDiscount.Add(_discount);

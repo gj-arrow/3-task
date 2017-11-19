@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using Steampowered.Configurations;
+using Steampowered.Services;
 
 namespace Steampowered.PageObjects
 {
@@ -15,11 +16,6 @@ namespace Steampowered.PageObjects
             _driver = driver;
         }
 
-        public void NavigateHomePage()
-        {
-            _driver.Navigate().GoToUrl(Config.Url);
-        }
-
         public void ConfirmAge()
         {
             if (_driver.FindElements(By.Name("ageDay")).Count != 0)
@@ -30,8 +26,7 @@ namespace Steampowered.PageObjects
                 monthSelect.SelectByIndex(7);
                 SelectElement yearSelect = new SelectElement(_driver.FindElement(By.Name("ageYear")));
                 yearSelect.SelectByText("1995");
-                var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(Config.ExplicitWait));
-                var btnConfirm = wait.Until(ExpectedConditions.ElementToBeClickable(_btnConfirmlocator));
+                var btnConfirm = WaitService.WaitUntilElementClickable(_driver, _btnConfirmlocator);
                 btnConfirm.Click();
             }
         }

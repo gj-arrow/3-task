@@ -1,7 +1,5 @@
-﻿using System;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using Steampowered.Configurations;
+﻿using OpenQA.Selenium;
+using Steampowered.Services;
 
 namespace Steampowered.PageObjects
 {
@@ -17,9 +15,9 @@ namespace Steampowered.PageObjects
 
         public void ClickInstallSteam()
         {
-            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(Config.ExplicitWait));
-            var btnInstallSteam = wait.Until(ExpectedConditions.ElementToBeClickable(_btnInstalSteamLocator));
+            var btnInstallSteam = WaitService.WaitUntilElementClickable(_driver, _btnInstalSteamLocator);
             btnInstallSteam.Click();
         }
+
     }
 }

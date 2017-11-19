@@ -29,12 +29,13 @@ namespace Steampowered.TestSteampowered
             BrowserFactory.CloseDriver();
         }
 
-        [Test,Repeat(3)]
+        [Test]
         public void AutoTestSteampowered()
         {
             HomePage homePage = new HomePage(_driver);
             homePage.NavigateHomePage();
             homePage.SelectLanguage(Config.Language);
+           // Thread.Sleep(5000);
             homePage.NavigateToActionGames();
             GenreGamePage genreGamePage = new GenreGamePage(_driver);
             genreGamePage.NavigateToTabDiscounts();
@@ -50,6 +51,7 @@ namespace Steampowered.TestSteampowered
             gamePage.ClickDownloadSteam();
             LoadSteamPage loadSteamPage = new LoadSteamPage(_driver);
             loadSteamPage.ClickInstallSteam();
+            Thread.Sleep(18000);
         }
     }
 }

@@ -28,13 +28,22 @@ namespace Steampowered.BrowsersFactory
             {
                 case BrowserNameHelper.BrowserEnum.FIREFOX:
                     {
-                        _driver = new FirefoxDriver();
+                        FirefoxOptions profile = new FirefoxOptions();
+                        profile.SetPreference("browser.download.folderList", 2);
+                        profile.SetPreference("browser.download.dir", "D:\\Student\\firefox");
+                        profile.SetPreference("browser.helperApps.neverAsk.saveToDisk", "application/octet-stream");
+                        profile.SetPreference("browser.download.manager.showWhenStarting", false);
+                        _driver = new FirefoxDriver(profile);
                     }
                     break;
 
                 case BrowserNameHelper.BrowserEnum.CHROME:
                     {
-                        _driver = new ChromeDriver();
+                        ChromeOptions options = new ChromeOptions();
+                        options.AddUserProfilePreference("download.prompt_for_download", false);
+                        options.AddUserProfilePreference("download.default_directory", @"D:\Student\chrome");
+                        options.AddUserProfilePreference("safebrowsing.enabled", true);
+                        _driver = new ChromeDriver(options);
                     }
                     break;
 
