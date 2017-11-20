@@ -1,9 +1,5 @@
-﻿using System;
-using System.Threading;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.PageObjects;
-using OpenQA.Selenium.Support.UI;
 using Steampowered.Configurations;
 using Steampowered.PageServices;
 
@@ -12,7 +8,6 @@ namespace Steampowered.PageObjects
     public class HomePage
     {
         private readonly IWebDriver _driver;
-        //private readonly By _btnGamesLocator = By.Id("genre_tab");
         private readonly By _btnGamesLocator = By.XPath("//*[@id='genre_tab']//a[contains(text(),'" + Resources.Resource.menuGames + "')]");
         private readonly By _btnActionGenreLocator = By.XPath("//div[@id='genre_flyout']/div/a[contains(text(),'"+ Resources.Resource.action + "')]");
         private readonly By _btnLanguageLocator = By.Id("language_pulldown");

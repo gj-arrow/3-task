@@ -25,8 +25,9 @@ namespace Steampowered.PageObjects
 
         public bool CheckFileOn()
         {
-            var exist = File.Exists(@"D:\Student\Downloads\SteamSetup.exe");
-            File.Delete(@"D:\Student\Downloads\SteamSetup.exe");
+            var fullPathToFile = Environment.CurrentDirectory + Config.PathToFile + "\\" + Config.NameFile;
+            var exist = File.Exists(fullPathToFile);
+            File.Delete(fullPathToFile);
             return exist;
         }
 

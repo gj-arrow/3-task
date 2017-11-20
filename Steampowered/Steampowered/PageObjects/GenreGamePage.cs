@@ -5,8 +5,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
-using Steampowered.Configurations;
 using Steampowered.PageServices;
 
 namespace Steampowered.PageObjects
@@ -34,7 +32,7 @@ namespace Steampowered.PageObjects
         {
             var buttonDiscounts = WaitService.WaitUntilElementClickable(_driver, _buttonDiscountsLocator);
             buttonDiscounts.Click();
-        //    Thread.Sleep(1000);
+        //    Thread.Sleep(500);
         }
 
         public List<string> SelectGameWithMaxDiscount()
@@ -47,10 +45,9 @@ namespace Steampowered.PageObjects
             }
             _discount = discountsGame.Max().ToString();
             var gameMaxDiscountlocator = By.XPath(GenerateLocatorService.GenerateStringLocator(_templateDiscountGameLocator, _discount));
-           // var gameMaxDiscount = WaitService.WaitUntilElementClickable(_driver,gameMaxDiscountlocator);
             var priceAndDiscount = GetPriceAndDiscount();
             ScrollService.ScrollToElement(_driver, gameMaxDiscountlocator);
-            //WaitService.ClickAndWaitForPageToLoad(_driver, gameMaxDiscountlocator);
+            // WaitService.ClickAndWaitForPageToLoad(_driver, gameMaxDiscountlocator); // не ту игру
             var displayed = WaitService.WaitTillElementisDisplayed(_driver, gameMaxDiscountlocator);
             if (displayed)
             {
@@ -58,15 +55,6 @@ namespace Steampowered.PageObjects
                 var btnGame = _driver.FindElement(gameMaxDiscountlocator);
                 actions.MoveToElement(btnGame).Click().Build().Perform();
             }
-
-
-
-            //var btnGame = WaitService.WaitUntilElementClickable(_driver, gameMaxDiscountlocator);
-            //btnGame.Click();
-
-
-            //var action = new Actions(_driver);
-            //action.MoveToElement(gameMaxDiscount).Click().Build().Perform();
             return priceAndDiscount;
         }
 

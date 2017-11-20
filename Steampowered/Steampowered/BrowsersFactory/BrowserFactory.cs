@@ -9,9 +9,10 @@ namespace Steampowered.BrowsersFactory
 {
   public class BrowserFactory
     {
-        private static IWebDriver _driver;
+        private static BrowserFactory instance = null;
+        private IWebDriver _driver;
 
-        public static IWebDriver Driver
+        public IWebDriver Driver
         {
             get
             {
@@ -21,7 +22,16 @@ namespace Steampowered.BrowsersFactory
             }
         }
 
-        public static void InitBrowser(string browserName)
+        public static BrowserFactory GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new BrowserFactory();
+            }
+            return instance;
+        }
+
+        public void InitBrowser(string browserName)
         {
             var currentBrowser = GetCurrentBrowser();
             switch (currentBrowser)
@@ -30,7 +40,7 @@ namespace Steampowered.BrowsersFactory
                     {
                         FirefoxOptions profile = new FirefoxOptions();
                         profile.SetPreference("browser.download.folderList", 2);
-                        profile.SetPreference("browser.download.dir", @"D:\Student\Downloads");
+                        profile.SetPreference("browser.download.dir", Environment.CurrentDirectory + Config.PathToFile);
                         profile.SetPreference("browser.helperApps.neverAsk.saveToDisk", "application/octet-stream");
                         profile.SetPreference("browser.download.manager.showWhenStarting", false);
                         _driver = new FirefoxDriver(profile);
@@ -41,7 +51,7 @@ namespace Steampowered.BrowsersFactory
                     {
                         ChromeOptions options = new ChromeOptions();
                         options.AddUserProfilePreference("download.prompt_for_download", false);
-                        options.AddUserProfilePreference("download.default_directory", @"D:\Student\Downloads");
+                        options.AddUserProfilePreference("download.default_directory", Environment.CurrentDirectory + Config.PathToFile);
                         options.AddUserProfilePreference("safebrowsing.enabled", true);
                         _driver = new ChromeDriver(options);
                     }
@@ -59,7 +69,7 @@ namespace Steampowered.BrowsersFactory
             return (BrowserNameHelper.BrowserEnum)Enum.Parse(typeof(BrowserNameHelper.BrowserEnum),Config.Browser.ToUpper());
         }
 
-        public static void CloseDriver()
+        public void CloseDriver()
         {
             _driver.Close();
             _driver.Quit();

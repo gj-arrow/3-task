@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Collections.Generic;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using Steampowered.Configurations;
 using Steampowered.PageServices;
 
 namespace Steampowered.PageObjects

@@ -1,5 +1,4 @@
-﻿using System;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using Steampowered.Configurations;
 using Steampowered.PageServices;
@@ -21,11 +20,11 @@ namespace Steampowered.PageObjects
             if (_driver.FindElements(By.Name("ageDay")).Count != 0)
             {
                 SelectElement daySelect = new SelectElement(_driver.FindElement(By.Name("ageDay")));
-                daySelect.SelectByText("25");
+                daySelect.SelectByText(Config.Day);
                 SelectElement monthSelect = new SelectElement(_driver.FindElement(By.Name("ageMonth")));
-                monthSelect.SelectByIndex(7);
+                monthSelect.SelectByIndex(Config.Month);
                 SelectElement yearSelect = new SelectElement(_driver.FindElement(By.Name("ageYear")));
-                yearSelect.SelectByText("1995");
+                yearSelect.SelectByText(Config.Year);
                 var btnConfirm = WaitService.WaitUntilElementClickable(_driver, _btnConfirmlocator);
                 btnConfirm.Click();
             }
