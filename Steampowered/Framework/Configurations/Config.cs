@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace Steampowered.Configurations
+namespace Framework.Configurations
 {
     public static class Config
     {
@@ -44,9 +44,9 @@ namespace Steampowered.Configurations
             get { return ConfigurationManager.AppSettings["Day"]; }
         }
 
-        public static int Month
+        public static string Month
         {
-            get { return Int32.Parse(ConfigurationManager.AppSettings["Month"]); }
+            get { return ConfigurationManager.AppSettings["Month"]; }
         }
 
         public static string Year

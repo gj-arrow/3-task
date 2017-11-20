@@ -1,7 +1,7 @@
 ﻿using System;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using Steampowered.Configurations;
+using Framework.Configurations;
 
 namespace Steampowered.PageServices
 {

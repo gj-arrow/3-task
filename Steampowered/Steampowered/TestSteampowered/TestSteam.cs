@@ -2,8 +2,9 @@
 using System.Threading;
 using NUnit.Framework;
 using Steampowered.PageObjects;
-using Steampowered.BrowsersFactory;
-using Steampowered.Configurations;
+using Framework.BrowserManager;
+using Framework.Configurations;
+using Steampowered.Entities;
 
 namespace Steampowered.TestSteampowered
 {
@@ -37,14 +38,12 @@ namespace Steampowered.TestSteampowered
             homePage.NavigateToActionGames();
             GenreGamePage genreGamePage = new GenreGamePage(_browserFactory.Driver);
             genreGamePage.NavigateToTabDiscounts();
-            var expectedPriceAndDiscount = genreGamePage.SelectGameWithMaxDiscount();
+            GameInfo gameInfoExpected = genreGamePage.SelectGameWithMaxDiscount();
             CheckAgePage checkAgePage = new CheckAgePage(_browserFactory.Driver);
             checkAgePage.ConfirmAge();
             GamePage gamePage = new GamePage(_browserFactory.Driver);
-            var actualPriceAndDiscount = gamePage.GetPriceAndDiscount();
-            Assert.AreEqual(expectedPriceAndDiscount[0], actualPriceAndDiscount[0]);
-            Assert.AreEqual(expectedPriceAndDiscount[1], actualPriceAndDiscount[1]);
-            Assert.AreEqual(expectedPriceAndDiscount[2], actualPriceAndDiscount[2]);
+            GameInfo gameInfoActual = gamePage.GetPriceAndDiscount();
+            Assert.True(GameInfo.Equals(gameInfoExpected, gameInfoActual));
             gamePage.ClickDownloadSteam();
             LoadSteamPage loadSteamPage = new LoadSteamPage(_browserFactory.Driver);
             loadSteamPage.ClickInstallSteam();

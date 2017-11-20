@@ -1,15 +1,15 @@
 ﻿using System;
 using System.IO;
 using OpenQA.Selenium;
-using Steampowered.Configurations;
-using Steampowered.PageServices;
+using Framework.Configurations;
+using Framework.Elements;
 
 namespace Steampowered.PageObjects
 {
     public class LoadSteamPage
     {
         private readonly IWebDriver _driver;
-        private readonly By _btnInstalSteamLocator = By.Id("about_install_steam_link");
+        private readonly Button _btnInstalSteam = new Button(By.Id("about_install_steam_link"), "btnInstalSteam");
 
         public LoadSteamPage(IWebDriver driver)
         {
@@ -18,8 +18,7 @@ namespace Steampowered.PageObjects
 
         public void ClickInstallSteam()
         {
-            var btnInstallSteam = WaitService.WaitUntilElementClickable(_driver, _btnInstalSteamLocator);
-            btnInstallSteam.Click();
+            _btnInstalSteam.Click();
         }
 
         public bool CheckFileOn()
