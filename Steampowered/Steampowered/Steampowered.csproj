@@ -60,6 +60,7 @@
     <Compile Include="BrowsersFactory\BrowserFactory.cs" />
     <Compile Include="Configurations\Config.cs" />
     <Compile Include="Helpers\BrowserNameHelper.cs" />
+    <Compile Include="PageElements\Button.cs" />
     <Compile Include="PageObjects\CheckAgePage.cs" />
     <Compile Include="PageObjects\GamePage.cs" />
     <Compile Include="PageObjects\GenreGamePage.cs" />

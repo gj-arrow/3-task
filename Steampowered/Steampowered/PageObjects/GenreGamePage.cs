@@ -32,7 +32,7 @@ namespace Steampowered.PageObjects
         {
             var buttonDiscounts = WaitService.WaitUntilElementClickable(_driver, _buttonDiscountsLocator);
             buttonDiscounts.Click();
-        //    Thread.Sleep(500);
+            Thread.Sleep(500);
         }
 
         public List<string> SelectGameWithMaxDiscount()
