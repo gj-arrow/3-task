@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading;
 using NUnit.Framework;
 using Steampowered.PageObjects;
@@ -20,7 +21,8 @@ namespace Steampowered.TestSteampowered
             _browserFactory.Driver.Manage().Window.Maximize();
             _browserFactory.Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.ImplicitWait);
             _browserFactory.Driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(Config.ExplicitWait);
-            Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo(Config.Language);
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(Config.Language);
+            _browserFactory.Driver.Navigate().GoToUrl(Config.Url);
         }
 
         [TearDown]
@@ -32,23 +34,26 @@ namespace Steampowered.TestSteampowered
         [Test,Repeat(3)]
         public void AutoTestSteampowered()
         {
-            HomePage homePage = new HomePage(_browserFactory.Driver);
-            homePage.NavigateHomePage();
-            homePage.SelectLanguage(Config.Language);
+            HomePage homePage = new HomePage();
+            homePage.SetLocale(Config.Language);
             homePage.NavigateToActionGames();
-            GenreGamePage genreGamePage = new GenreGamePage(_browserFactory.Driver);
+
+            GenreGamePage genreGamePage = new GenreGamePage();
             genreGamePage.NavigateToTabDiscounts();
             GameInfo gameInfoExpected = genreGamePage.SelectGameWithMaxDiscount();
-            CheckAgePage checkAgePage = new CheckAgePage(_browserFactory.Driver);
+
+            CheckAgePage checkAgePage = new CheckAgePage();
             checkAgePage.ConfirmAge();
-            GamePage gamePage = new GamePage(_browserFactory.Driver);
+
+            GamePage gamePage = new GamePage();
             GameInfo gameInfoActual = gamePage.GetPriceAndDiscount();
-            Assert.True(GameInfo.Equals(gameInfoExpected, gameInfoActual));
+            Assert.True(GameInfo.Equals(gameInfoExpected, gameInfoActual),"not match prices or discount");
             gamePage.ClickDownloadSteam();
-            LoadSteamPage loadSteamPage = new LoadSteamPage(_browserFactory.Driver);
+
+            LoadSteamPage loadSteamPage = new LoadSteamPage();
             loadSteamPage.ClickInstallSteam();
             Thread.Sleep(10000);
-            Assert.True(loadSteamPage.CheckFileOn());
+            Assert.True(loadSteamPage.CheckFileInFolder());
         }
     }
 }

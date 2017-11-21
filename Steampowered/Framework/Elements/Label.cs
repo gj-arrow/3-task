@@ -6,12 +6,15 @@ namespace Framework.Elements
     {
         public Label(By locator) : base(locator)
         {
-            WaitUntilDisplayed();
         }
 
         public Label(By locator, string name) : base(locator, name)
+        { 
+        }
+
+        public void ScrollToLabel()
         {
-            WaitUntilDisplayed();
+            ScrollToElement();
         }
     }
 }

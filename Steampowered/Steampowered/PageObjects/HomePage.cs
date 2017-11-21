@@ -1,44 +1,34 @@
 ﻿using System.Threading;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
-using Framework.Configurations;
 using Framework.Elements;
-using Steampowered.PageServices;
+using NUnit.Framework;
+using Steampowered.Elements;
 
 namespace Steampowered.PageObjects
 {
-    public class HomePage
+    public class HomePage : BasePage
     {
-        private readonly IWebDriver _driver;
         private static readonly string CurrentLanguageName = Thread.CurrentThread.CurrentUICulture.EnglishName.ToLower();
-        private readonly By _btnGamesLocator = By.XPath("//*[@id='genre_tab']//a[contains(text(),'" + Resources.Resource.menuGames + "')]");
-        private readonly By _btnActionGenreLocator = By.XPath("//div[@id='genre_flyout']/div/a[contains(text(),'"+ Resources.Resource.action + "')]");
+        private static readonly By BtnGamesLocator = By.XPath("//div[@id='genre_tab']//a[contains(text(),'" + Resources.Resource.menuGames + "')]");
         private readonly Button _btnLanguages = new Button(By.Id("language_pulldown"), "btnLanguages");
-        private readonly Button _btnLanguage = new Button(
-            By.XPath(string.Format("//*[@id='language_dropdown']/div/a[contains(@href,'{0}')]", CurrentLanguageName)), "btnSelectedLanguage");
+        private readonly Label _lblBottomHomePage = 
+            new Label(By.XPath("//div[@id='content_login']//div[contains(@class,'more_content_title')]"), "lblBottomHomePage");
+        private readonly Button _btnLanguage = 
+            new Button(By.XPath(string.Format("//div[@id='language_dropdown']/div/a[contains(@href,'{0}')]", CurrentLanguageName)), "btnSelectedLanguage");
+        private readonly Menu _menu = new Menu(BtnGamesLocator, "menu");
 
-        public HomePage(IWebDriver driver)
-        {
-            _driver = driver;
-        }
-
-        public void NavigateHomePage()
-        {
-            _driver.Navigate().GoToUrl(Config.Url);
+        public HomePage() {
+            Assert.True(IsTruePage(_lblBottomHomePage.GetLocator()), "This is not HomePage");
         }
 
         public void NavigateToActionGames()
         {
-            var actions = new Actions(_driver);
-            var buttonGames = WaitService.WaitUntilElementExists(_driver, _btnGamesLocator);
-            actions.MoveToElement(buttonGames).Perform();
-            var buttonActionGenre = WaitService.WaitUntilElementClickable(_driver, _btnActionGenreLocator);
-            actions.MoveToElement(buttonActionGenre).Click().Build().Perform();
+            _menu.SelectItem(Resources.Resource.action);
         }
 
-        public void SelectLanguage(string language)
-        {        
-            var selectedLanguage = _driver.FindElement(By.XPath("/html")).GetAttribute("lang");
+        public void SetLocale(string language)
+        {
+            var selectedLanguage = GetAttribute(By.XPath("/html"), "lang");
             if (selectedLanguage != language)
             {
                 _btnLanguages.Click();

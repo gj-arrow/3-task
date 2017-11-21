@@ -1,59 +1,50 @@
 ﻿using System.Threading;
+using Framework.Configurations;
 using Framework.Elements;
 using Framework.Utils;
+using NUnit.Framework;
 using OpenQA.Selenium;
+using Steampowered.Elements;
 using Steampowered.Entities;
-using Steampowered.PageServices;
 
 namespace Steampowered.PageObjects
 {
-    public class GenreGamePage
+    public class GenreGamePage : BasePage
     {
-        private readonly IWebDriver _driver;
         private Label _lblDiscount;
         private Label _lblOriginalPrice;
         private Label _lblDiscountPrice;
+        private readonly char[] _charsToTrim = { '-', ' ', '%', '$', 'U', 'S', 'D' };
+        private readonly Tab _diacountGamesTab =
+            new Tab(By.XPath("//div[@id='tab_select_Discounts']/div[contains(@class,'tab_content')]"), "discountGamesTab");
         private const string RegularFindDiscountGame ="[0-9].(?=\\%<\\/div>)";
-        private readonly By _buttonDiscountsLocator = By.XPath("//div[@id='tab_select_Discounts']/div[contains(@class,'tab_content')]");
-        private readonly By _discountGamesLocator = By.XPath("//div[@id='DiscountsTable']");
-        private string _templateDiscountGameLocator =
-            "//div[@id='DiscountsRows']//div[contains(@class,'discount_pct') and contains(text(),'{0}')]/../..";
-        private string _templateOriginalPriceGameLocator =
-            "//div[@id='DiscountsRows']//div[contains(@class,'discount_pct') and contains(text(),'{0}')]/..//div[contains(@class,'discount_original_price')]";
-        private string _templateDiscountPriceGameLocator =
-            "//div[@id='DiscountsRows']//div[contains(@class,'discount_pct') and contains(text(),'{0}')]/..//div[contains(@class,'discount_final_price')]";
+        private const string StartLocatorPriceAndDiscount =
+            "//div[@id='DiscountsRows']//div[contains(@class,'discount_pct') and contains(text(),'{0}')]/..";
+        private const string TemplateDiscountGameLocator = StartLocatorPriceAndDiscount + "/..";
+        private const string TemplateOriginalPriceGameLocator = StartLocatorPriceAndDiscount + "//div[contains(@class,'discount_original_price')]";
+        private const string TtemplateDiscountPriceGameLocator = StartLocatorPriceAndDiscount +  "//div[contains(@class,'discount_final_price')]";
         private string _discount;
 
-        public GenreGamePage(IWebDriver driver)
+        public GenreGamePage()
         {
-            _driver = driver;
+            Assert.True(IsTruePage(_diacountGamesTab.GetLocator()), "This is not GenreGamePage");
         }
 
         public void NavigateToTabDiscounts()
         {
-            var buttonDiscounts = WaitService.WaitUntilElementClickable(_driver, _buttonDiscountsLocator);
-            buttonDiscounts.Click();
-            Thread.Sleep(500);
+            _diacountGamesTab.MoveAndClick();
         }
 
         public GameInfo SelectGameWithMaxDiscount()
         {
-            var divInnerText = _driver.FindElement(_discountGamesLocator).GetAttribute("innerHTML");
+            var divInnerText = _diacountGamesTab.GetInnerHtml(Config.idTab);
             _discount = RegexUtil.GetMatchMaxInt(RegularFindDiscountGame, divInnerText).ToString();
-            _lblDiscount = new Label(By.XPath(string.Format(_templateDiscountGameLocator, _discount)), "labelDiscount");
-            _lblOriginalPrice = new Label(By.XPath(string.Format(_templateOriginalPriceGameLocator, _discount)), "labelOriginalPrice");
-            _lblDiscountPrice = new Label(By.XPath(string.Format(_templateDiscountPriceGameLocator, _discount)), "labelDiscountPrice");
-            var gameInfo = new GameInfo(_discount, _lblOriginalPrice.GetText.Substring(1), _lblDiscountPrice.GetText.Substring(1));
-            ScrollService.ScrollToElement(_driver, _lblDiscount);
+            _lblDiscount = new Label(By.XPath(string.Format(TemplateDiscountGameLocator, _discount)), "labelDiscount");
+            _lblOriginalPrice = new Label(By.XPath(string.Format(TemplateOriginalPriceGameLocator, _discount)), "labelOriginalPrice");
+            _lblDiscountPrice = new Label(By.XPath(string.Format(TtemplateDiscountPriceGameLocator, _discount)), "labelDiscountPrice");
+            _lblDiscountPrice.ScrollToLabel();
+            var gameInfo = new GameInfo(_discount, _lblOriginalPrice.GetText().Trim(_charsToTrim), _lblDiscountPrice.GetText().Trim(_charsToTrim));
             _lblDiscount.ClickAndWait();
-            // WaitService.ClickAndWaitForPageToLoad(_driver, gameMaxDiscountlocator); // не ту игру
-            //var displayed = WaitService.WaitTillElementisDisplayed(_driver, gameMaxDiscountlocator);
-            //if (displayed)
-            //{
-            //    var actions = new Actions(_driver);
-            //    var btnGame = _driver.FindElement(gameMaxDiscountlocator);
-            //    actions.MoveToElement(btnGame).Click().Build().Perform();
-            //}
             return gameInfo;
         } 
     }

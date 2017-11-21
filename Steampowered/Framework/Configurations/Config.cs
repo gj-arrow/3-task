@@ -53,5 +53,10 @@ namespace Framework.Configurations
         {
             get { return ConfigurationManager.AppSettings["Year"]; }
         }
+
+        public static string idTab
+        {
+            get { return ConfigurationManager.AppSettings["idTab"]; }
+        }
     }
 }

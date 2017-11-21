@@ -59,9 +59,9 @@ namespace Resources {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to Account settings.
+        ///   Looks up a localized string similar to action.
         /// </summary>
         public static string action
         {
@@ -69,9 +69,9 @@ namespace Resources {
                 return ResourceManager.GetString("action", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to Achievments: .
+        ///   Looks up a localized string similar to btnLanguage: .
         /// </summary>
         public static string btnLanguage
         {
@@ -79,9 +79,9 @@ namespace Resources {
                 return ResourceManager.GetString("btnLanguage", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to + Add page.
+        ///   Looks up a localized string similar to menuGames.
         /// </summary>
         public static string menuGames
         {

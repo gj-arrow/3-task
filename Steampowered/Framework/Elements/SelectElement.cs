@@ -10,13 +10,13 @@ namespace Framework.Elements
         }
 
         public SelectElement(By locator, string name) : base (locator, name)
-         {
+        {
         }
 
         public void SelectValue(string value)
         {
             WaitUntilDisplayed();
-            UISelectElement select = new UISelectElement(Element);
+            var select = new UISelectElement(Element);
             select.SelectByText(value);
         }
     }

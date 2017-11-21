@@ -33,7 +33,7 @@ namespace Framework.Utils
             return discounts[0];
         }
 
-        public static int GetMatchMaxInt(String patternStr, String textElement)
+        public static int GetMatchMaxInt(string patternStr, string textElement)
         {
             List<int> discounts = GetMatchListInt(patternStr, textElement);
             discounts.Sort();

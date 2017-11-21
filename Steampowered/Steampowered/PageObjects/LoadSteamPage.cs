@@ -3,17 +3,17 @@ using System.IO;
 using OpenQA.Selenium;
 using Framework.Configurations;
 using Framework.Elements;
+using NUnit.Framework;
 
 namespace Steampowered.PageObjects
 {
-    public class LoadSteamPage
+    public class LoadSteamPage : BasePage
     {
-        private readonly IWebDriver _driver;
         private readonly Button _btnInstalSteam = new Button(By.Id("about_install_steam_link"), "btnInstalSteam");
 
-        public LoadSteamPage(IWebDriver driver)
+        public LoadSteamPage()
         {
-            _driver = driver;
+            Assert.True(IsTruePage(_btnInstalSteam.GetLocator()), "This is not LoadSteamPage");
         }
 
         public void ClickInstallSteam()
@@ -21,7 +21,7 @@ namespace Steampowered.PageObjects
             _btnInstalSteam.Click();
         }
 
-        public bool CheckFileOn()
+        public bool CheckFileInFolder()
         {
             var fullPathToFile = Environment.CurrentDirectory + Config.PathToFile + "\\" + Config.NameFile;
             var exist = File.Exists(fullPathToFile);

@@ -56,14 +56,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Elements\Tab.cs" />
     <Compile Include="Entities\GameInfo.cs" />
+    <Compile Include="Elements\Menu.cs" />
+    <Compile Include="Elements\Submenu.cs" />
+    <Compile Include="PageObjects\BasePage.cs" />
     <Compile Include="PageObjects\CheckAgePage.cs" />
     <Compile Include="PageObjects\GamePage.cs" />
     <Compile Include="PageObjects\GenreGamePage.cs" />
     <Compile Include="PageObjects\HomePage.cs" />
     <Compile Include="PageObjects\LoadSteamPage.cs" />
-    <Compile Include="PageServices\ScrollService.cs" />
-    <Compile Include="PageServices\WaitService.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="TestSteampowered\TestSteam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
