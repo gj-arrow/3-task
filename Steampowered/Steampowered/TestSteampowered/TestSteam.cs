@@ -31,29 +31,28 @@ namespace Steampowered.TestSteampowered
             _browserFactory.CloseDriver();
         }
 
-        [Test,Repeat(3)]
+        [Test,Repeat(5)]
         public void AutoTestSteampowered()
         {
-            HomePage homePage = new HomePage();
+            var homePage = new HomePage();
             homePage.SetLocale(Config.Language);
-            homePage.NavigateToActionGames();
+            homePage.Menu.SelectItem(Resources.Resource.action);
 
-            GenreGamePage genreGamePage = new GenreGamePage();
+            var genreGamePage = new GenreGamePage();
             genreGamePage.NavigateToTabDiscounts();
             GameInfo gameInfoExpected = genreGamePage.SelectGameWithMaxDiscount();
 
-            CheckAgePage checkAgePage = new CheckAgePage();
+            var checkAgePage = new CheckAgePage();
             checkAgePage.ConfirmAge();
 
-            GamePage gamePage = new GamePage();
+            var gamePage = new GamePage();
             GameInfo gameInfoActual = gamePage.GetPriceAndDiscount();
-            Assert.True(GameInfo.Equals(gameInfoExpected, gameInfoActual),"not match prices or discount");
+            Assert.True(GameInfo.Equals(gameInfoExpected, gameInfoActual),"Does not match prices or discount");
             gamePage.ClickDownloadSteam();
 
-            LoadSteamPage loadSteamPage = new LoadSteamPage();
+            var loadSteamPage = new LoadSteamPage();
             loadSteamPage.ClickInstallSteam();
-            Thread.Sleep(10000);
-            Assert.True(loadSteamPage.CheckFileInFolder());
+            Assert.True(loadSteamPage.CheckFile(), "File not download");
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Threading;
 using OpenQA.Selenium;
 using Framework.Configurations;
 using Framework.Elements;
@@ -10,6 +12,8 @@ namespace Steampowered.PageObjects
     public class LoadSteamPage : BasePage
     {
         private readonly Button _btnInstalSteam = new Button(By.Id("about_install_steam_link"), "btnInstalSteam");
+        private string _fullPathToFile;
+        private string nameFile;
 
         public LoadSteamPage()
         {
@@ -19,14 +23,24 @@ namespace Steampowered.PageObjects
         public void ClickInstallSteam()
         {
             _btnInstalSteam.Click();
+           
         }
 
-        public bool CheckFileInFolder()
+        public bool CheckFile()
         {
-            var fullPathToFile = Environment.CurrentDirectory + Config.PathToFile + "\\" + Config.NameFile;
-            var exist = File.Exists(fullPathToFile);
-            File.Delete(fullPathToFile);
-            return exist;
-        }      
+            nameFile = _btnInstalSteam.GetAttribute("href").Split('/').Last();
+            _fullPathToFile = Environment.CurrentDirectory + "\\" + nameFile;
+            while (!IsFileExist())
+            {
+                Thread.Sleep(500);
+            }
+            File.Delete(_fullPathToFile);
+            return true;
+        }
+
+        private bool IsFileExist()
+        {
+            return File.Exists(_fullPathToFile);
+        }
     }
 }

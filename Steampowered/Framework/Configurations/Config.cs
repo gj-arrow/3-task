@@ -34,11 +34,6 @@ namespace Framework.Configurations
             get { return ConfigurationManager.AppSettings["PathToFile"]; }
         }
 
-        public static string NameFile
-        {
-            get { return ConfigurationManager.AppSettings["NameFile"]; }
-        }
-
         public static string Day
         {
             get { return ConfigurationManager.AppSettings["Day"]; }

@@ -15,22 +15,22 @@ namespace Framework.Elements
         protected string Name;
         protected WebDriverWait Wait = new WebDriverWait(Browser.Driver, TimeSpan.FromSeconds(Config.ExplicitWait));
 
-        public BaseElement(By locator, string name)
+        protected BaseElement(By locator, string name)
         {
             Locator = locator;
             Name = name;
         }
 
-        public BaseElement(By locator)
+        protected BaseElement(By locator)
         {
             this.Locator = locator;
         }
 
-        public BaseElement()
+        protected BaseElement()
         {
         }
 
-        public string GetName()
+        protected string GetName()
         {
             WaitUntilDisplayed();
             return Name; 
@@ -76,7 +76,6 @@ namespace Framework.Elements
 
         public void ClickAndWait()
         {
-            //ScrollToElement();
             WaitUntilClickable();
             Element.Click();
             Wait.Until(ExpectedConditions.StalenessOf(Element));
@@ -84,7 +83,6 @@ namespace Framework.Elements
 
         public void Click()
         {
-            //ScrollToElement();
             WaitUntilClickable();
             Element.Click();
         }
@@ -112,6 +110,12 @@ namespace Framework.Elements
                 return true;
             }
             return false;
+        }
+
+        public string GetAttribute(string attribute)
+        {
+            var textAttribute = Element.GetAttribute(attribute);
+            return textAttribute;
         }
     }
 }

@@ -15,15 +15,10 @@ namespace Steampowered.PageObjects
             new Label(By.XPath("//div[@id='content_login']//div[contains(@class,'more_content_title')]"), "lblBottomHomePage");
         private readonly Button _btnLanguage = 
             new Button(By.XPath(string.Format("//div[@id='language_dropdown']/div/a[contains(@href,'{0}')]", CurrentLanguageName)), "btnSelectedLanguage");
-        private readonly Menu _menu = new Menu(BtnGamesLocator, "menu");
+        public readonly Menu Menu = new Menu(BtnGamesLocator, "menu");
 
         public HomePage() {
             Assert.True(IsTruePage(_lblBottomHomePage.GetLocator()), "This is not HomePage");
-        }
-
-        public void NavigateToActionGames()
-        {
-            _menu.SelectItem(Resources.Resource.action);
         }
 
         public void SetLocale(string language)
