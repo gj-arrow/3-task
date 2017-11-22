@@ -31,7 +31,7 @@ namespace Steampowered.TestSteampowered
             _browserFactory.CloseDriver();
         }
 
-        [Test,Repeat(5)]
+        [Test,Repeat(15)]
         public void AutoTestSteampowered()
         {
             var homePage = new HomePage();

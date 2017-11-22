@@ -50,6 +50,7 @@ namespace Framework.Elements
 
         public IWebElement WaitUntilDisplayed()
         {
+            Wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(Locator));
             Wait.Until(drv => drv.FindElement(Locator).Displayed && drv.FindElement(Locator).Enabled);
             Element = Browser.Driver.FindElement(Locator);
             return Element;

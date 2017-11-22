@@ -29,7 +29,7 @@ namespace Steampowered.PageObjects
         public bool CheckFile()
         {
             nameFile = _btnInstalSteam.GetAttribute("href").Split('/').Last();
-            _fullPathToFile = Environment.CurrentDirectory + "\\" + nameFile;
+            _fullPathToFile = Environment.CurrentDirectory + Config.PathToFile + "\\" + nameFile;
             while (!IsFileExist())
             {
                 Thread.Sleep(500);

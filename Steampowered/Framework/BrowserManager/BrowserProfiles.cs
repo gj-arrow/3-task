@@ -12,7 +12,7 @@ namespace Framework.BrowserManager
         {
             var profile = new FirefoxOptions();
             profile.SetPreference("browser.download.folderList", 2);
-            profile.SetPreference("browser.download.dir", Environment.CurrentDirectory);
+            profile.SetPreference("browser.download.dir", Environment.CurrentDirectory + Config.PathToFile);
             profile.SetPreference("browser.helperApps.neverAsk.saveToDisk", "application/octet-stream");
             profile.SetPreference("browser.download.manager.showWhenStarting", false);
             return profile;
@@ -22,9 +22,9 @@ namespace Framework.BrowserManager
         {
             var profile = new ChromeOptions();
             profile.AddUserProfilePreference("download.prompt_for_download", false);
-            profile.AddUserProfilePreference("download.default_directory", Environment.CurrentDirectory);
-          //  var a = Directory.GetCurrentDirectory();
-          //  var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            profile.AddUserProfilePreference("download.default_directory", Environment.CurrentDirectory + Config.PathToFile);
+           // var a = Directory.GetCurrentDirectory();
+            //var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
             profile.AddUserProfilePreference("safebrowsing.enabled", true);
             return profile;
         }
