@@ -24,6 +24,11 @@ namespace Framework.Configurations
             get { return Int32.Parse(ConfigurationManager.AppSettings["ExplicitWait"]); }
         }
 
+        public static int DownloadWait
+        {
+            get { return Int32.Parse(ConfigurationManager.AppSettings["DownloadWait"]); }
+        }
+
         public static string Language
         {
             get { return ConfigurationManager.AppSettings["Language"].ToLower(); }
@@ -52,6 +57,11 @@ namespace Framework.Configurations
         public static string idTab
         {
             get { return ConfigurationManager.AppSettings["idTab"]; }
+        }
+
+        public static int Time
+        {
+            get { return Int32.Parse(ConfigurationManager.AppSettings["Time"]); }
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using Framework.Configurations;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
@@ -23,8 +22,6 @@ namespace Framework.BrowserManager
             var profile = new ChromeOptions();
             profile.AddUserProfilePreference("download.prompt_for_download", false);
             profile.AddUserProfilePreference("download.default_directory", Environment.CurrentDirectory + Config.PathToFile);
-           // var a = Directory.GetCurrentDirectory();
-            //var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
             profile.AddUserProfilePreference("safebrowsing.enabled", true);
             return profile;
         }

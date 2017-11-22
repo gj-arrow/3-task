@@ -1,12 +1,8 @@
-﻿using System;
-using System.Threading;
-using Framework.Configurations;
+﻿using Framework.Configurations;
 using Framework.Elements;
 using Framework.Utils;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.Extensions;
-using OpenQA.Selenium.Support.UI;
 using Steampowered.Elements;
 using Steampowered.Entities;
 
@@ -17,6 +13,7 @@ namespace Steampowered.PageObjects
         private Label _lblDiscount;
         private Label _lblOriginalPrice;
         private Label _lblDiscountPrice;
+        private readonly Label _lblAction = new Label(By.XPath("//div/h2[contains(text(),'" + Resources.Resource.action + "')]"));
         private readonly char[] _charsToTrim = { '-', ' ', '%', '$', 'U', 'S', 'D' };
         private readonly Tab _diacountGamesTab =
             new Tab(By.XPath("//div[@id='tab_select_Discounts']/div[contains(@class,'tab_content')]"), "discountGamesTab");
@@ -30,7 +27,7 @@ namespace Steampowered.PageObjects
 
         public GenreGamePage()
         {
-            Assert.True(IsTruePage(_diacountGamesTab.GetLocator()), "This is not GenreGamePage");
+            Assert.True(IsTruePage(_lblAction.GetLocator()), "This is not GenreGamePage");
         }
 
         public void NavigateToTabDiscounts()

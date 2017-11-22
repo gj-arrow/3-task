@@ -60,7 +60,6 @@
     <Compile Include="Entities\GameInfo.cs" />
     <Compile Include="Elements\Menu.cs" />
     <Compile Include="Elements\Submenu.cs" />
-    <Compile Include="PageObjects\BasePage.cs" />
     <Compile Include="PageObjects\CheckAgePage.cs" />
     <Compile Include="PageObjects\GamePage.cs" />
     <Compile Include="PageObjects\GenreGamePage.cs" />

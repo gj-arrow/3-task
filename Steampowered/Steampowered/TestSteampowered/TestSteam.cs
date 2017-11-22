@@ -31,7 +31,7 @@ namespace Steampowered.TestSteampowered
             _browserFactory.CloseDriver();
         }
 
-        [Test,Repeat(15)]
+        [Test]
         public void AutoTestSteampowered()
         {
             var homePage = new HomePage();
@@ -46,13 +46,13 @@ namespace Steampowered.TestSteampowered
             checkAgePage.ConfirmAge();
 
             var gamePage = new GamePage();
-            GameInfo gameInfoActual = gamePage.GetPriceAndDiscount();
-            Assert.True(GameInfo.Equals(gameInfoExpected, gameInfoActual),"Does not match prices or discount");
-            gamePage.ClickDownloadSteam();
+            GameInfo gameInfoActual = gamePage.GetPriceAndDiscount(); 
+            Assert.True(GameInfo.Equals(gameInfoExpected, gameInfoActual),"Doesn't match prices or discount");
+            gamePage.NavigateToDownloadSteam();
 
             var loadSteamPage = new LoadSteamPage();
             loadSteamPage.ClickInstallSteam();
-            Assert.True(loadSteamPage.CheckFile(), "File not download");
+            Assert.True(loadSteamPage.CheckFile(), "File wasn't downloaded");
         }
     }
 }

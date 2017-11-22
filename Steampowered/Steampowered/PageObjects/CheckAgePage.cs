@@ -1,7 +1,6 @@
 ﻿using OpenQA.Selenium;
 using Framework.Configurations;
 using Framework.Elements;
-using NUnit.Framework;
 
 namespace Steampowered.PageObjects
 {
@@ -11,14 +10,9 @@ namespace Steampowered.PageObjects
         private readonly SelectElement _selectMonth = new SelectElement(By.Name("ageMonth"), "selectMonth");
         private readonly SelectElement _selectYear = new SelectElement(By.Name("ageYear"), "selectYear");
         private readonly Button _btnConfirm = new Button(
-            By.XPath("//form[@id='agecheck_form']/a[contains(@class,'btnv6_blue_hoverfade')]"), "btnConfirmCheckAge");
+            By.XPath("//form[@id='agecheck_form']//span[contains(text(),'" + Resources.Resource.submit + "')]"), "btnConfirmCheckAge");
         private readonly Button _btnOpenPage = new Button(
-            By.XPath("//div[@id='app_agegate']//a[contains(@class,'btn_grey_white_innerfade')]"), "btnOpenPage");
-
-        public CheckAgePage()
-        {
-            Assert.True(Browser.Driver.Url.Contains("agecheck"), "This is not CheckAgePage");
-        }
+            By.XPath("//div[@id='app_agegate']//span[contains(text(),'" + Resources.Resource.openPage + "')]"), "btnOpenPage");
 
         public void ConfirmAge()
         {

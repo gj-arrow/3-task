@@ -11,6 +11,7 @@ namespace Steampowered.PageObjects
         private static readonly string CurrentLanguageName = Thread.CurrentThread.CurrentUICulture.EnglishName.ToLower();
         private static readonly By BtnGamesLocator = By.XPath("//div[@id='genre_tab']//a[contains(text(),'" + Resources.Resource.menuGames + "')]");
         private readonly Button _btnLanguages = new Button(By.Id("language_pulldown"), "btnLanguages");
+        private readonly Element _elementHtml = new Element(By.XPath("/html"), "elementHtml");
         private readonly Label _lblBottomHomePage = 
             new Label(By.XPath("//div[@id='content_login']//div[contains(@class,'more_content_title')]"), "lblBottomHomePage");
         private readonly Button _btnLanguage = 
@@ -23,7 +24,7 @@ namespace Steampowered.PageObjects
 
         public void SetLocale(string language)
         {
-            var selectedLanguage = GetAttribute(By.XPath("/html"), "lang");
+            var selectedLanguage = _elementHtml.GetAttribute("lang");
             if (selectedLanguage != language)
             {
                 _btnLanguages.Click();

@@ -89,5 +89,21 @@ namespace Resources {
                 return ResourceManager.GetString("menuGames", resourceCulture);
             }
         }
+
+        public static string submit
+        {
+            get
+            {
+                return ResourceManager.GetString("submit", resourceCulture);
+            }
+        }
+
+        public static string openPage
+        {
+            get
+            {
+                return ResourceManager.GetString("openPage", resourceCulture);
+            }
+        }
     }
 }

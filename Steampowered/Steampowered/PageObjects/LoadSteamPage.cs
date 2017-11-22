@@ -13,7 +13,9 @@ namespace Steampowered.PageObjects
     {
         private readonly Button _btnInstalSteam = new Button(By.Id("about_install_steam_link"), "btnInstalSteam");
         private string _fullPathToFile;
-        private string nameFile;
+        private string _nameFile;
+        private const char SeparatorHref = '/';
+        private int _seconds = 0;
 
         public LoadSteamPage()
         {
@@ -22,19 +24,23 @@ namespace Steampowered.PageObjects
 
         public void ClickInstallSteam()
         {
-            _btnInstalSteam.Click();
-           
+            _btnInstalSteam.Click();         
         }
 
         public bool CheckFile()
         {
-            nameFile = _btnInstalSteam.GetAttribute("href").Split('/').Last();
-            _fullPathToFile = Environment.CurrentDirectory + Config.PathToFile + "\\" + nameFile;
-            while (!IsFileExist())
+            _nameFile = _btnInstalSteam.GetAttribute("href").Split(SeparatorHref).Last();
+            _fullPathToFile = Environment.CurrentDirectory + Config.PathToFile + "\\" + _nameFile;
+            while (!IsFileExist() && _seconds < Config.Time)
             {
-                Thread.Sleep(500);
+                Thread.Sleep(Config.DownloadWait);
+                _seconds++;
             }
-            File.Delete(_fullPathToFile);
+            var dirInfo = new DirectoryInfo(Environment.CurrentDirectory + Config.PathToFile);
+            foreach (var file in dirInfo.GetFiles())
+            {
+                file.Delete();
+            }
             return true;
         }
 

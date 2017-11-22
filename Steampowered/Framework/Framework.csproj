@@ -57,7 +57,9 @@
     <Compile Include="BrowserManager\BrowserProfiles.cs" />
     <Compile Include="BrowserManager\BrowserType.cs" />
     <Compile Include="Elements\BaseElement.cs" />
+    <Compile Include="Elements\BasePage.cs" />
     <Compile Include="Elements\Button.cs" />
+    <Compile Include="Elements\Element.cs" />
     <Compile Include="Elements\Label.cs" />
     <Compile Include="Elements\SelectElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

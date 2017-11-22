@@ -126,4 +126,10 @@
   <data name="action" xml:space="preserve">
     <value>Action</value>
   </data>
+  <data name="openPage" xml:space="preserve">
+    <value>View Page</value>
+  </data>
+  <data name="submit" xml:space="preserve">
+    <value>Enter</value>
+  </data>
 </root>

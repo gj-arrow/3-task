@@ -58,6 +58,7 @@ namespace Framework.Elements
 
         public IWebElement WaitUntilClickable()
         {
+            WaitUntilDisplayed();
             Element = Wait.Until(ExpectedConditions.ElementToBeClickable(Locator));
             return Element;
         }

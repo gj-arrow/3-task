@@ -26,7 +26,7 @@ namespace Steampowered.PageObjects
             return gameInfo;
         }
 
-        public void ClickDownloadSteam()
+        public void NavigateToDownloadSteam()
         {
             _btnInstallSteam.Click();
         }

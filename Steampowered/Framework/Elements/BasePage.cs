@@ -2,7 +2,7 @@
 using Framework.BrowserManager;
 using OpenQA.Selenium;
 
-namespace Steampowered.PageObjects
+namespace Framework.Elements
 {
     public abstract class BasePage
     {
