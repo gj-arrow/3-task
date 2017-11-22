@@ -35,14 +35,7 @@ namespace Steampowered.PageObjects
 
         public void NavigateToTabDiscounts()
         {
-            var js = Browser.Driver as IJavaScriptExecutor;
-            var wait = new WebDriverWait(Browser.Driver, TimeSpan.FromSeconds(Config.ImplicitWait));
-            wait.Until(wd => js.ExecuteScript("return (document.readyState == 'complete' && jQuery.active == 0)"));
-
             _diacountGamesTab.MoveAndClick();
-
-            //var waitForDocumentReady = new WebDriverWait(Browser.Driver, TimeSpan.FromSeconds(10));
-          //  waitForDocumentReady.Until((wdriver) => (Browser.Driver as IJavaScriptExecutor).ExecuteScript("return document.readyState").Equals("complete"));
         }
 
         public GameInfo SelectGameWithMaxDiscount()
