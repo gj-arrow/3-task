@@ -13,12 +13,6 @@ namespace Framework.Elements
             Browser = BrowserFactory.GetInstance();
         }
 
-        protected string GetAttribute(By locator, string attribute)
-        {
-            var textAttribute = Browser.Driver.FindElement(locator).GetAttribute(attribute);
-            return textAttribute;
-        }
-
         protected bool IsTruePage(By locator)
         {
             try

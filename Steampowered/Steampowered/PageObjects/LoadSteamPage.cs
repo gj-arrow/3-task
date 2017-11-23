@@ -31,17 +31,25 @@ namespace Steampowered.PageObjects
         {
             _nameFile = _btnInstalSteam.GetAttribute("href").Split(SeparatorHref).Last();
             _fullPathToFile = Environment.CurrentDirectory + Config.PathToFile + "\\" + _nameFile;
-            while (!IsFileExist() && _seconds < Config.Time)
+            while (_seconds < Config.Time)
             {
-                Thread.Sleep(Config.DownloadWait);
-                _seconds++;
-            }
-            var dirInfo = new DirectoryInfo(Environment.CurrentDirectory + Config.PathToFile);
-            foreach (var file in dirInfo.GetFiles())
-            {
-                file.Delete();
-            }
-            return true;
+                if (!IsFileExist())
+                {
+                    Thread.Sleep(Config.DownloadWait);
+                    _seconds++;
+                }
+
+                else
+                {
+                    var dirInfo = new DirectoryInfo(Environment.CurrentDirectory + Config.PathToFile);
+                    foreach (var file in dirInfo.GetFiles())
+                    {
+                        file.Delete();
+                    }
+                    return true;
+                }
+            }           
+            return false;
         }
 
         private bool IsFileExist()
