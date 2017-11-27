@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using Framework;
 using OpenQA.Selenium;
 using Framework.Elements;
 using NUnit.Framework;
@@ -9,17 +10,22 @@ namespace Steampowered.PageObjects
     public class HomePage : BasePage
     {
         private static readonly string CurrentLanguageName = Thread.CurrentThread.CurrentUICulture.EnglishName.ToLower();
-        private static readonly By BtnGamesLocator = By.XPath("//div[@id='genre_tab']//a[contains(text(),'" + Resources.Resource.menuGames + "')]");
         private readonly Button _btnLanguages = new Button(By.Id("language_pulldown"), "btnLanguages");
-        private readonly Element _elementHtml = new Element(By.XPath("/html"), "elementHtml");
+        private readonly BaseElement _elementHtml = new BaseElement(By.XPath("/html"), "elementHtml");
         private readonly Label _lblBottomHomePage = 
             new Label(By.XPath("//div[@id='content_login']//div[contains(@class,'more_content_title')]"), "lblBottomHomePage");
         private readonly Button _btnLanguage = 
             new Button(By.XPath(string.Format("//div[@id='language_dropdown']/div/a[contains(@href,'{0}')]", CurrentLanguageName)), "btnSelectedLanguage");
-        public readonly Menu Menu = new Menu(BtnGamesLocator, "menu");
+        private Menu _menu;
 
         public HomePage() {
-            Assert.True(IsTruePage(_lblBottomHomePage.GetLocator()), "This is not HomePage");
+            Assert.True(IsTruePage(_lblBottomHomePage), "This is not HomePage");
+        }
+
+        public Menu GetMenu()
+        {
+            _menu = new Menu();
+            return _menu;
         }
 
         public void SetLocale(string language)

@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Framework;
+using OpenQA.Selenium;
 using Framework.Configurations;
 using Framework.Elements;
 
@@ -6,8 +7,6 @@ namespace Steampowered.PageObjects
 {
     public class CheckAgePage : BasePage
     {
-        private readonly SelectElement _selectDay = new SelectElement(By.Name("ageDay"), "selectDay");
-        private readonly SelectElement _selectMonth = new SelectElement(By.Name("ageMonth"), "selectMonth");
         private readonly SelectElement _selectYear = new SelectElement(By.Name("ageYear"), "selectYear");
         private readonly Button _btnConfirm = new Button(
             By.XPath("//form[@id='agecheck_form']//span[contains(text(),'" + Resources.Resource.submit + "')]"), "btnConfirmCheckAge");
@@ -21,10 +20,8 @@ namespace Steampowered.PageObjects
                 _btnOpenPage.Click();
             }
 
-            else if (_selectDay.IsExistOnPage())
+            else if (_selectYear.IsExistOnPage())
             {
-                _selectDay.SelectValue(Config.Day);
-                _selectMonth.SelectValue(Config.Month);
                 _selectYear.SelectValue(Config.Year);
                 _btnConfirm.ClickAndWait();
             }

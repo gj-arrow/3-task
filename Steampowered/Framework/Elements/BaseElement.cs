@@ -9,50 +9,50 @@ namespace Framework.Elements
 {
     public class BaseElement
     {
-        protected static  BrowserFactory Browser = BrowserFactory.GetInstance();
+        public static Browser Browser = Browser.GetInstance();
         protected IWebElement Element;
         protected By Locator;
         protected string Name;
-        protected WebDriverWait Wait = new WebDriverWait(Browser.Driver, TimeSpan.FromSeconds(Config.ExplicitWait));
+        protected WebDriverWait Wait = new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(Config.ExplicitWait));
 
-        protected BaseElement(By locator, string name)
+        public BaseElement(By locator, string name)
         {
             Locator = locator;
             Name = name;
         }
 
-        protected BaseElement(By locator)
+        public BaseElement(By locator)
         {
             this.Locator = locator;
         }
 
-        protected BaseElement()
+        public BaseElement()
         {
         }
 
-        protected string GetName()
+        public string GetName()
         {
             WaitUntilDisplayed();
-            return Name; 
+            return Name;
         }
 
         public By GetLocator()
         {
             WaitUntilDisplayed();
-            return Locator; 
+            return Locator;
         }
 
         public string GetText()
         {
             WaitUntilDisplayed();
-            return Element.Text; 
+            return Element.Text;
         }
 
         public IWebElement WaitUntilDisplayed()
         {
             Wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(Locator));
             Wait.Until(drv => drv.FindElement(Locator).Displayed && drv.FindElement(Locator).Enabled);
-            Element = Browser.Driver.FindElement(Locator);
+            Element = Browser.GetDriver().FindElement(Locator);
             return Element;
         }
 
@@ -92,22 +92,22 @@ namespace Framework.Elements
         public void MoveAndClick()
         {
             ScrollToElement();
-            var actions = new Actions(Browser.Driver);
+            var actions = new Actions(Browser.GetDriver());
             WaitUntilClickable();
             actions.MoveToElement(Element).Click().Build().Perform();
         }
 
         public void ScrollToElement()
         {
-            var wait = new WebDriverWait(Browser.Driver, TimeSpan.FromSeconds(Config.ExplicitWait));
+            var wait = new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(Config.ExplicitWait));
             var webElement = wait.Until(ExpectedConditions.ElementToBeClickable(Locator));
-            IJavaScriptExecutor js = Browser.Driver as IJavaScriptExecutor;
+            IJavaScriptExecutor js = Browser.GetDriver() as IJavaScriptExecutor;
             js.ExecuteScript("arguments[0].scrollIntoView(true);", webElement);
         }
 
         public bool IsExistOnPage()
         {
-            if (Browser.Driver.FindElements(Locator).Count != 0)
+            if (Browser.GetDriver().FindElements(Locator).Count != 0)
             {
                 return true;
             }
@@ -116,8 +116,16 @@ namespace Framework.Elements
 
         public string GetAttribute(string attribute)
         {
+            WaitUntilDisplayed();
             var textAttribute = Element.GetAttribute(attribute);
             return textAttribute;
+        }
+
+        public void MoveToElement()
+        {
+            WaitUntilDisplayed();
+            var mouse = new Actions(Browser.GetDriver());
+            mouse.MoveToElement(Element).Build().Perform();
         }
     }
 }

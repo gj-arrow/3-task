@@ -8,44 +8,20 @@ namespace Framework.BrowserManager
 {
   public class BrowserFactory
     {
-        private static BrowserFactory _instance = null;
-        private IWebDriver _driver;
-
-        public IWebDriver Driver
-        {
-            get
-            {
-                if (_driver == null)
-                    throw new NullReferenceException("The WebDriver browser instance was not initialized. You should first call the method InitBrowser.");
-                return _driver;
-            }
-        }
-
-        public static BrowserFactory GetInstance()
-        {
-            if (_instance == null)
-            {
-                _instance = new BrowserFactory();
-            }
-            return _instance;
-        }
-
-        public void InitBrowser(string browserName)
+        public static IWebDriver GetDriver()
         {
             var currentBrowser = GetCurrentBrowser();
             switch (currentBrowser)
             {
                 case BrowserType.BrowserEnum.FIREFOX:
                     {
-                        _driver = new FirefoxDriver(BrowserProfiles.GetFireFoxProfile());
+                        return new FirefoxDriver(BrowserProfiles.GetFireFoxProfile());
                     }
-                    break;
 
                 case BrowserType.BrowserEnum.CHROME:
                     {
-                        _driver = new ChromeDriver(BrowserProfiles.GetChromeProfile());
+                        return new ChromeDriver(BrowserProfiles.GetChromeProfile());
                     }
-                    break;
 
                 default:
                 {
@@ -57,11 +33,6 @@ namespace Framework.BrowserManager
         private static BrowserType.BrowserEnum GetCurrentBrowser()
         {
             return (BrowserType.BrowserEnum)Enum.Parse(typeof(BrowserType.BrowserEnum),Config.Browser.ToUpper());
-        }
-
-        public void CloseDriver()
-        {
-            _driver.Quit();
         }
     }
 }

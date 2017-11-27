@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Threading;
 using NUnit.Framework;
 using Steampowered.PageObjects;
@@ -11,24 +10,20 @@ namespace Steampowered.TestSteampowered
 {
     public class TestSteam
     {
-        private BrowserFactory _browserFactory;
+        private Browser _browser;
 
         [SetUp]
         public void Initialize()
         {
-            _browserFactory = BrowserFactory.GetInstance();
-            _browserFactory.InitBrowser(Config.Browser);
-            _browserFactory.Driver.Manage().Window.Maximize();
-            _browserFactory.Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.ImplicitWait);
-            _browserFactory.Driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(Config.ExplicitWait);
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(Config.Language);
-            _browserFactory.Driver.Navigate().GoToUrl(Config.Url);
+            _browser = Browser.GetInstance();
+            _browser.GoToUrl(Config.Url);
         }
 
         [TearDown]
         public void Dispose()
         {
-            _browserFactory.CloseDriver();
+            _browser.CloseDriver();
         }
 
         [Test]
@@ -36,7 +31,7 @@ namespace Steampowered.TestSteampowered
         {
             var homePage = new HomePage();
             homePage.SetLocale(Config.Language);
-            homePage.Menu.SelectItem(Resources.Resource.action);
+            homePage.GetMenu().NavigateToSubItemSelectedMenuItem(Resources.Resource.menuGames, Resources.Resource.action);
 
             var genreGamePage = new GenreGamePage();
             genreGamePage.NavigateToTabDiscounts();
@@ -47,7 +42,8 @@ namespace Steampowered.TestSteampowered
 
             var gamePage = new GamePage();
             GameInfo gameInfoActual = gamePage.GetPriceAndDiscount(); 
-            Assert.True(GameInfo.Equals(gameInfoExpected, gameInfoActual),"Doesn't match prices or discount");
+            Assert.AreEqual(gameInfoExpected, gameInfoActual,"Objects doesn't match.Expected:" 
+                + gameInfoExpected + ".Actual:" + gameInfoActual);
             gamePage.NavigateToDownloadSteam();
 
             var loadSteamPage = new LoadSteamPage();

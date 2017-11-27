@@ -1,10 +1,11 @@
-﻿using Framework.Configurations;
+﻿using Framework;
+using Framework.Configurations;
 using Framework.Elements;
-using Framework.Utils;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using Steampowered.Elements;
 using Steampowered.Entities;
+using Steampowered.Services;
 
 namespace Steampowered.PageObjects
 {
@@ -13,6 +14,7 @@ namespace Steampowered.PageObjects
         private Label _lblDiscount;
         private Label _lblOriginalPrice;
         private Label _lblDiscountPrice;
+        private Label _lblNameGame;
         private readonly Label _lblAction = new Label(By.XPath("//div/h2[contains(text(),'" + Resources.Resource.action + "')]"));
         private readonly char[] _charsToTrim = { '-', ' ', '%', '$', 'U', 'S', 'D' };
         private readonly Tab _diacountGamesTab =
@@ -20,14 +22,15 @@ namespace Steampowered.PageObjects
         private const string RegularFindDiscountGame ="[0-9].(?=\\%<\\/div>)";
         private const string StartLocatorPriceAndDiscount =
             "//div[@id='DiscountsRows']//div[contains(@class,'discount_pct') and contains(text(),'{0}')]/..";
-        private const string TemplateDiscountGameLocator = StartLocatorPriceAndDiscount + "/..";
-        private const string TemplateOriginalPriceGameLocator = StartLocatorPriceAndDiscount + "//div[contains(@class,'discount_original_price')]";
-        private const string TtemplateDiscountPriceGameLocator = StartLocatorPriceAndDiscount +  "//div[contains(@class,'discount_final_price')]";
+        private const string DiscountGameLocator = StartLocatorPriceAndDiscount + "/..";
+        private const string OriginalPriceGameLocator = StartLocatorPriceAndDiscount + "//div[contains(@class,'discount_original_price')]";
+        private const string DiscountPriceGameLocator = StartLocatorPriceAndDiscount +  "//div[contains(@class,'discount_final_price')]";
+        private const string NameGameLocator = DiscountGameLocator + "//div[contains(@class, 'tab_item_name')]";
         private string _discount;
 
         public GenreGamePage()
         {
-            Assert.True(IsTruePage(_lblAction.GetLocator()), "This is not GenreGamePage");
+            Assert.True(IsTruePage(_lblAction), "This is not GenreGamePage");
         }
 
         public void NavigateToTabDiscounts()
@@ -38,12 +41,14 @@ namespace Steampowered.PageObjects
         public GameInfo SelectGameWithMaxDiscount()
         {
             var divInnerText = _diacountGamesTab.GetInnerHtml(Config.idTab);
-            _discount = RegexUtil.GetMatchMaxInt(RegularFindDiscountGame, divInnerText).ToString();
-            _lblDiscount = new Label(By.XPath(string.Format(TemplateDiscountGameLocator, _discount)), "labelDiscount");
-            _lblOriginalPrice = new Label(By.XPath(string.Format(TemplateOriginalPriceGameLocator, _discount)), "labelOriginalPrice");
-            _lblDiscountPrice = new Label(By.XPath(string.Format(TtemplateDiscountPriceGameLocator, _discount)), "labelDiscountPrice");
+           // _discount = RegexService.GetMatchMaxInt(RegularFindDiscountGame, divInnerText).ToString();
+            _discount = "50";
+            _lblDiscount = new Label(By.XPath(string.Format(DiscountGameLocator, _discount)), "labelDiscount");
+            _lblOriginalPrice = new Label(By.XPath(string.Format(OriginalPriceGameLocator, _discount)), "labelOriginalPrice");
+            _lblDiscountPrice = new Label(By.XPath(string.Format(DiscountPriceGameLocator, _discount)), "labelDiscountPrice");
+            _lblNameGame = new Label(By.XPath(string.Format(NameGameLocator, _discount)), "labelNameGame");
             _lblDiscountPrice.ScrollToLabel();
-            var gameInfo = new GameInfo(_discount, _lblOriginalPrice.GetText().Trim(_charsToTrim), _lblDiscountPrice.GetText().Trim(_charsToTrim));
+            var gameInfo = new GameInfo(_lblNameGame.GetText(), _discount, _lblOriginalPrice.GetText().Trim(_charsToTrim), _lblDiscountPrice.GetText().Trim(_charsToTrim));
             _lblDiscount.ClickAndWait();
             return gameInfo;
         } 

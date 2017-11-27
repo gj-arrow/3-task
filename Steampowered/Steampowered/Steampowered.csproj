@@ -59,12 +59,12 @@
     <Compile Include="Elements\Tab.cs" />
     <Compile Include="Entities\GameInfo.cs" />
     <Compile Include="Elements\Menu.cs" />
-    <Compile Include="Elements\Submenu.cs" />
     <Compile Include="PageObjects\CheckAgePage.cs" />
     <Compile Include="PageObjects\GamePage.cs" />
     <Compile Include="PageObjects\GenreGamePage.cs" />
     <Compile Include="PageObjects\HomePage.cs" />
     <Compile Include="PageObjects\LoadSteamPage.cs" />
+    <Compile Include="Services\RegexService.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="TestSteampowered\TestSteam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,7 +83,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Resource.resx" />
+    <EmbeddedResource Include="Resources\Resource.en.resx" />
     <EmbeddedResource Include="Resources\Resource.ru.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

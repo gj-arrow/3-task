@@ -1,38 +1,34 @@
-﻿using Framework.Elements;
+﻿using Framework;
+using Framework.Elements;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
 
 namespace Steampowered.Elements
 {
-    public class Menu : BaseElement
+    public class Menu : BasePage
     {
-        public Menu(By locator) : base (locator)
+        private Button _btnMenuItem;
+        private Button _btnMenuSubItem;
+        private string _templateMenuLocator = "//span[contains(@class,'pulldown')]//a[contains(text(),'{0}')]";
+        private const string TemplateGenreLocatorStr = "//div[contains(@class, 'popup_menu')]//a[contains(text(),'{0}')]";
+        private const string NameBtn = "btnMenuItem";
+
+        private void HoverElement(string itemMenuName)
         {
+            _btnMenuItem = new Button(By.XPath(string.Format(_templateMenuLocator, itemMenuName)), NameBtn);
+            _btnMenuItem.MoveToElement();
         }
 
-        public Menu(By locator, string name) : base (locator, name)
+        public void NavigateToMenuItem(string itemMenuName)
         {
+            _btnMenuItem = new Button(By.XPath(string.Format(_templateMenuLocator, itemMenuName)), NameBtn);
+            _btnMenuItem.ClickAndWait();
         }
 
-        private void HoverElement()
+        public void NavigateToSubItemSelectedMenuItem(string itemMenuName, string subItemName)
         {
-            WaitUntilDisplayed();
-            var mouse = new Actions(Browser.Driver);
-            mouse.MoveToElement(Element).Build().Perform();
-        }
-
-        public void SelectItem(string itemString)
-        {
-            HoverElement();
-            var subMenuActions = new Submenu(itemString);
-            subMenuActions.ClickAndWait();
-        }
-
-        public void SelectItem(string itemString, string name)
-        {
-            HoverElement();
-            var subMenuActions = new Submenu(itemString, name);
-            subMenuActions.ClickAndWait();
+            HoverElement(itemMenuName);
+            _btnMenuSubItem = new Button(By.XPath(string.Format(TemplateGenreLocatorStr, subItemName)), "btnMenuSubItem");
+            _btnMenuSubItem.ClickAndWait();
         }
     }
 }

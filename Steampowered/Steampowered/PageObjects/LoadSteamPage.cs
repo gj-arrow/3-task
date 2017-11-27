@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading;
+using Framework;
 using OpenQA.Selenium;
 using Framework.Configurations;
 using Framework.Elements;
@@ -19,7 +20,7 @@ namespace Steampowered.PageObjects
 
         public LoadSteamPage()
         {
-            Assert.True(IsTruePage(_btnInstalSteam.GetLocator()), "This is not LoadSteamPage");
+            Assert.True(IsTruePage(_btnInstalSteam), "This is not LoadSteamPage");
         }
 
         public void ClickInstallSteam()
