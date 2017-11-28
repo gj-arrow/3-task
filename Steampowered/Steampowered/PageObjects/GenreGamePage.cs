@@ -41,8 +41,7 @@ namespace Steampowered.PageObjects
         public GameInfo SelectGameWithMaxDiscount()
         {
             var divInnerText = _diacountGamesTab.GetInnerHtml(Config.idTab);
-           // _discount = RegexService.GetMatchMaxInt(RegularFindDiscountGame, divInnerText).ToString();
-            _discount = "50";
+            _discount = RegexService.GetMatchMaxInt(RegularFindDiscountGame, divInnerText).ToString();
             _lblDiscount = new Label(By.XPath(string.Format(DiscountGameLocator, _discount)), "labelDiscount");
             _lblOriginalPrice = new Label(By.XPath(string.Format(OriginalPriceGameLocator, _discount)), "labelOriginalPrice");
             _lblDiscountPrice = new Label(By.XPath(string.Format(DiscountPriceGameLocator, _discount)), "labelDiscountPrice");
