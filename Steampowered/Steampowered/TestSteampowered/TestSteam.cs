@@ -18,6 +18,7 @@ namespace Steampowered.TestSteampowered
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(Config.Language);
             _browser = Browser.GetInstance();
             _browser.GoToUrl(Config.Url);
+            LoadSteamPage.ClearFolder(Config.PathToFile);
         }
 
         [TearDown]

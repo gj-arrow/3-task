@@ -42,15 +42,20 @@ namespace Steampowered.PageObjects
 
                 else
                 {
-                    var dirInfo = new DirectoryInfo(Environment.CurrentDirectory + Config.PathToFile);
-                    foreach (var file in dirInfo.GetFiles())
-                    {
-                        file.Delete();
-                    }
-                    return true;
+                    ClearFolder(Config.PathToFile);
+;                   return true;
                 }
             }           
             return false;
+        }
+
+        public static void ClearFolder(string pathFolder)
+        {
+            var dirInfo = new DirectoryInfo(Environment.CurrentDirectory + pathFolder);
+            foreach (var file in dirInfo.GetFiles())
+            {
+                file.Delete();
+            }
         }
 
         private bool IsFileExist()
